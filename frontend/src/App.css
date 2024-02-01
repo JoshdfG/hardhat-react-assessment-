@@ -1,0 +1,90 @@
+.App {
+  background-color: #172730;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 4rem;
+}
+
+.App h1 {
+  color: #eeee;
+  margin-top: 4rem;
+}
+
+.App h2 {
+  color: rgb(255, 100, 4);
+  font-style: italic;
+}
+
+.App h2 span {
+  color: #eee;
+  font-style: normal;
+}
+
+.App>button {
+  background-color: #ff8400;
+  padding: 12px 30px;
+  color: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  border-radius: .3rem;
+}
+
+.App>button:first-child {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.App form {
+  display: grid;
+  gap: 1rem;
+  width: 40%;
+  padding: 3rem;
+  border-radius: .5rem;
+  border: rgb(0, 116, 127) 0.01rem solid;
+  margin-top: 2rem;
+}
+
+.App form input {
+  height: 35px;
+  border: none;
+  color: #000;
+  outline: none;
+  padding: 10px;
+  font-size: 1.3rem;
+}
+
+.App .btns {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.App form button {
+  background-color:#ff8400;
+  padding: 12px 30px;
+  color: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  border-radius: .3rem;
+}
+.App form button:hover{
+  background-color: #e98306;
+  border: rgb(7, 126, 200) 0.2rem solid;
+
+}
+.App form button:active{
+  background-color: #d17300;
+  border: rgb(7, 126, 200) 0.2rem solid;
+}
+.connect:hover{
+  background-color: #c66e02;
+  border: rgb(7, 126, 200) 0.2rem solid;
+
+}

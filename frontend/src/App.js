@@ -5,27 +5,28 @@ import "./App.css";
 
 function App() {
   const [message, setMessage] = useState(null);
-  // const [isLoading, setIsLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
+  const [walletAddress, setWalletAddress] = useState(null);
 
-  //address
   const contractAddress = "0xd4a8f57b701cd45A174ef6Cc35eEDd3C343b78D8";
 
-  // async function for accessing metamask in our browser
-  async function requestAccount() {
-    await window.ethereum.request({ method: "eth_requestAccounts" });
+  async function connectWallet() {
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      setWalletAddress(accounts[0]);
+    } catch (error) {
+      console.error("Error connecting wallet:", error.message || error);
+    }
   }
 
-  //getMessage function using ethers
   async function getMessage() {
+    let contract;
     if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(
-        contractAddress,
-        contractABI,
-        signer
-      );
+      contract = new ethers.Contract(contractAddress, contractABI, signer);
 
       try {
         const getMsg = await contract.getMessage();
@@ -34,29 +35,22 @@ function App() {
         console.error("Error:", err);
       }
     } else {
-      await requestAccount();
+      await connectWallet();
     }
   }
 
   const handleSubmit = async () => {
-    await updateMessage(newMessage);
-
+    let contract;
+    await updateMessage(newMessage, contract);
     await getMessage();
-
     setNewMessage("");
   };
 
-  //set message function using ethers
-  async function updateMessage(data) {
+  async function updateMessage(data, contract) {
     if (typeof window.ethereum !== "undefined") {
-      // await requestAccount();
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(
-        contractAddress,
-        contractABI,
-        signer
-      );
+      contract = new ethers.Contract(contractAddress, contractABI, signer);
 
       try {
         await contract.setMessage(data);
@@ -67,7 +61,7 @@ function App() {
         console.error("Error:", err);
       }
     } else {
-      await requestAccount();
+      await connectWallet();
     }
   }
 
@@ -77,7 +71,9 @@ function App() {
 
   return (
     <div className="App">
-      <button className="connect" onClick={requestAccount}>Connect Wallet</button>
+      <button className="connect" onClick={connectWallet}>
+        {walletAddress ? `Connected: ${walletAddress}` : "Connect Wallet"}
+      </button>
       <h1>Message Retrieval DApp</h1>
 
       <form>
